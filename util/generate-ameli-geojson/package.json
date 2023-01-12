@@ -1,0 +1,12 @@
+{
+  "name": "generate-ameli-geojson",
+  "version": "1.0.0",
+  "description": "Convert CNAM \"infos pratiques\" database to GeoJSON",
+  "main": "index.js",
+  "author": "leonekmi",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "csv-parse": "^5.3.3"
+  }
+}
