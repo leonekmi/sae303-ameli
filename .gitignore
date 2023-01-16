@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/util/generate-ameli-geojson/*.json
+/util/generate-ameli-geojson/*.csv
+cnam.geo.json
+.~lock*
