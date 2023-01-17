@@ -26,8 +26,11 @@ parser.on("readable", () => {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [record.longitude, record.latitude],
+        coordinates: [parseFloat(record.longitude), parseFloat(record.latitude)],
       },
+      properties: {
+        ...cnam[parseInt(record.index)]
+      }
     });
     database[record.index] = cnam[parseInt(record.index)];
   }
@@ -35,10 +38,10 @@ parser.on("readable", () => {
 
 parser.on("end", () => {
   console.log("finito");
-  const end = JSON.stringify(geojson);
+  const end = JSON.stringify(geojson, undefined, 2);
   const end_db = JSON.stringify(database);
-  writeFile("cnam.geo.json", end, "utf8", () => console.log("Fichier !"));
-  writeFile("cnam.data.json", end_db, "utf8", () => console.log("Fichier !"));
+  writeFile("cnam.full.geo.json", end, "utf8", () => console.log("Fichier !"));
+  // writeFile("cnam.data.json", end_db, "utf8", () => console.log("Fichier !"));
 });
 
 createReadStream("cnam_ban.geocoded.csv").pipe(parser);
