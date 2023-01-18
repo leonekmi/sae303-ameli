@@ -112,14 +112,13 @@ map.once('load', () => {
         'circle-stroke-width': 1,
       },
     });
+    map.on('click', `circle-cnam-${color}`, (ev) => {
+      console.log(ev.features);
+      if (ev.features) {
+        alert(JSON.stringify(ev.features[0]));
+      }
+    });
   });
-});
-
-map.on('click', 'point-cnam', (ev) => {
-  console.log(ev.features);
-  if (ev.features) {
-    alert(JSON.stringify(ev.features[0]));
-  }
 });
 
 map.on('click', (ev) => {
