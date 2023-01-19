@@ -99,7 +99,7 @@ map.once('load', () => {
           12,
         ],
         'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 11, 1, 13, 0],
-      },
+      }
     },
     'place_label_other'
   );
@@ -115,27 +115,15 @@ map.once('load', () => {
         'circle-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
         'circle-color': [
           'case',
-          ...(Object.entries(colors).flatMap(([color, pros]) => {
+          ...Object.entries(colors).flatMap(([color, pros]) => {
             return [['in', ['get', 'pro'], ['literal', pros]], color];
-          }) as [
-            ExpressionSpecification,
-            ExpressionInputType,
-            ...(ExpressionSpecification | ExpressionInputType)[]
-          ]),
+          }) as [ExpressionSpecification, ExpressionInputType, ...(ExpressionSpecification | ExpressionInputType)[]],
           // Par défaut
           'gray',
         ],
-        'circle-stroke-opacity': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          12,
-          0,
-          14,
-          1,
-        ],
+        'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
         'circle-stroke-width': 1,
-      },
+      }
     },
     'place_label_other'
   );
@@ -161,6 +149,9 @@ map.once('load', () => {
           1,
         ],
         'circle-stroke-width': 1,
+      },
+      layout: {
+        visibility: 'none',
       },
     });
 

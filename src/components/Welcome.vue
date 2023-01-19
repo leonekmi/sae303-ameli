@@ -15,10 +15,10 @@
       Leon Lozahic - SAÉ 3D03 -
       <a href="http://www.openmaptiles.org/" target="_blank">
         &copy; OpenMapTiles
-      </a>
+      </a>&nbsp;- 
       <a href="http://www.openstreetmap.org/about/" target="_blank">
         &copy; OpenStreetMap contributors
-      </a>
+      </a>&nbsp;- 
       <a href="https://www.data.gouv.fr/fr/datasets/annuaire-sante-de-la-cnam/" target="_blank">
         &copy; Cnam
       </a>
@@ -35,7 +35,7 @@
   left: 0;
   background-color: rgba(93, 93, 93, 0.3);
   backdrop-filter: blur(10px) saturate(80%);
-  text-shadow: 0 0 1px white;
+  text-shadow: 0 0 1px rgb(146, 146, 146);
 
   display: flex;
   flex-direction: column;
@@ -59,5 +59,9 @@ p {
   font-size: 2rem;
   padding: 1rem 3rem;
   border-radius: 16px;
+}
+
+a, a:visited {
+  color: black;
 }
 </style>
