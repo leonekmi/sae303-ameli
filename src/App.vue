@@ -23,7 +23,7 @@ import { CNAMData } from './types';
 const welcome = ref(
   ['', '#0/0/0', '#5.44/46.562/2.264'].includes(window.location.hash)
 );
-const doctorType = ref('darkblue');
+const doctorType = ref('all');
 const doc = ref<CNAMData | undefined>(undefined);
 
 function nearest(lngLat: Position) {

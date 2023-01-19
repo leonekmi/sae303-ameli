@@ -100,9 +100,6 @@ map.once('load', () => {
         ],
         'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 11, 1, 13, 0],
       },
-      layout: {
-        visibility: 'none'
-      }
     },
     'place_label_other'
   );
@@ -118,18 +115,27 @@ map.once('load', () => {
         'circle-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
         'circle-color': [
           'case',
-          ...Object.entries(colors).flatMap(([color, pros]) => {
+          ...(Object.entries(colors).flatMap(([color, pros]) => {
             return [['in', ['get', 'pro'], ['literal', pros]], color];
-          }) as [ExpressionSpecification, ExpressionInputType, ...(ExpressionSpecification | ExpressionInputType)[]],
+          }) as [
+            ExpressionSpecification,
+            ExpressionInputType,
+            ...(ExpressionSpecification | ExpressionInputType)[]
+          ]),
           // Par défaut
           'gray',
         ],
-        'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
+        'circle-stroke-opacity': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          12,
+          0,
+          14,
+          1,
+        ],
         'circle-stroke-width': 1,
       },
-      layout: {
-        visibility: 'none'
-      }
     },
     'place_label_other'
   );
@@ -155,9 +161,6 @@ map.once('load', () => {
           1,
         ],
         'circle-stroke-width': 1,
-      },
-      layout: {
-        visibility: color === 'darkblue' ? 'visible' : 'none',
       },
     });
 
@@ -206,7 +209,7 @@ map.once('load', () => {
           ],
         },
         layout: {
-          visibility: color === 'darkblue' ? 'visible' : 'none',
+          visibility: 'none',
         },
       },
       'place_label_other'
