@@ -19,6 +19,9 @@
       <a href="http://www.openstreetmap.org/about/" target="_blank">
         &copy; OpenStreetMap contributors
       </a>
+      <a href="https://www.data.gouv.fr/fr/datasets/annuaire-sante-de-la-cnam/" target="_blank">
+        &copy; Cnam
+      </a>
     </p>
   </div>
 </template>
@@ -32,6 +35,7 @@
   left: 0;
   background-color: rgba(93, 93, 93, 0.3);
   backdrop-filter: blur(10px) saturate(80%);
+  text-shadow: 0 0 1px white;
 
   display: flex;
   flex-direction: column;

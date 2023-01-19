@@ -3,7 +3,7 @@
     <form @submit.prevent="tpToSearch">
       <div>
         Quel est le
-        <select :value="doctorType" @change="$emit('update:doctorType', $event.target.value)">
+        <select :value="doctorType" @change="$emit('update:doctorType', ($event.target as HTMLSelectElement).value)">
           <option value="all">-- Tous --</option>
           <option v-for="(value, key) in colorsLegend" :key="key" :value="key">
             {{ value }}
