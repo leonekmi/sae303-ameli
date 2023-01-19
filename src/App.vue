@@ -1,139 +1,96 @@
-<template></template>
+<template>
+  <Welcome v-if="welcome" @close="welcome = false" />
+  <SearchBox
+    v-model:doctor-type="doctorType"
+    @flied="nearest(marker.getLngLat().toArray())"
+  />
+  <InfoDoc :doc="doc" />
+</template>
 
 <script lang="ts" setup>
-import {
-  ExpressionInputType,
-  ExpressionSpecification,
-  Map as Maplibre,
-} from 'maplibre-gl';
-import { colors } from './colors';
+import { ref, watch } from 'vue';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { emptyGeoJSON, map, marker, markerPopup } from './map';
+import { colors, colorsLegend } from './colors';
 import nearestPoint from '@turf/nearest-point';
+import Welcome from './components/Welcome.vue';
+import SearchBox from './components/SearchBox.vue';
+import { lineString, Position } from '@turf/helpers';
+import { GeoJSONSource } from 'maplibre-gl';
+import InfoDoc from './components/InfoDoc.vue';
+import { CNAMData } from './types';
 
-const map = new Maplibre({
-  container: 'map',
-  style: 'https://france.leonekmi.fr/styles/france/style.json',
-  bounds: [
-    [-6.152, 51.511],
-    [10.679, 41.117],
-  ],
-});
+const welcome = ref(
+  ['', '#0/0/0', '#5.44/46.562/2.264'].includes(window.location.hash)
+);
+const doctorType = ref('darkblue');
+const doc = ref<CNAMData | undefined>(undefined);
 
-map.once('load', () => {
-  console.log('loaded!');
-
-  map.addSource('cnam', {
-    type: 'vector',
-    url: 'https://france.leonekmi.fr/data/cnam-tippecanoe.json',
-  });
-
-  map.addLayer(
-    {
-      id: 'heatmap-cnam',
-      type: 'heatmap',
-      source: 'cnam',
-      'source-layer': 'cnam',
-      maxzoom: 13,
-      paint: {
-        'heatmap-color': [
-          'interpolate',
-          ['linear'],
-          ['heatmap-density'],
-          0,
-          'rgba(0, 201, 90, 0)',
-          0.1,
-          '#00C95A',
-          0.4,
-          '#E36214',
-          1,
-          '#820933',
-        ],
-        // Adjust the heatmap radius by zoom level
-        'heatmap-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          0,
-          0,
-          7,
-          5,
-          13,
-          12,
-        ],
-        'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 11, 1, 13, 0],
-      },
-    },
-    'place_label_other'
-  );
-
-  // map.addLayer(
-  //   {
-  //     id: 'point-cnam',
-  //     type: 'circle',
-  //     source: 'cnam',
-  //     'source-layer': 'cnam',
-  //     minzoom: 12,
-  //     paint: {
-  //       'circle-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
-  //       'circle-color': [
-  //         'case',
-  //         ...Object.entries(colors).flatMap(([color, pros]) => {
-  //           return [['in', ['get', 'pro'], ['literal', pros]], color];
-  //         }) as [ExpressionSpecification, ExpressionInputType, ...(ExpressionSpecification | ExpressionInputType)[]],
-  //         // Par défaut
-  //         'gray',
-  //       ],
-  //       'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
-  //       'circle-stroke-width': 1,
-  //     },
-  //   },
-  //   'place_label_other'
-  // );
-
-  Object.entries(colors).forEach(([color, pros]) => {
-    map.addLayer({
-      id: `circle-cnam-${color}`,
-      type: 'circle',
-      source: 'cnam',
-      'source-layer': 'cnam',
-      minzoom: 12,
-      filter: ['in', ['get', 'pro'], ['literal', pros]],
-      paint: {
-        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 14, 1],
-        'circle-color': color,
-        'circle-stroke-opacity': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          12,
-          0,
-          14,
-          1,
-        ],
-        'circle-stroke-width': 1,
-      },
+function nearest(lngLat: Position) {
+  marker.setLngLat(lngLat as [number, number]);
+  if (doctorType.value === 'all') {
+    markerPopup.setText(
+      'Sélectionnez une spécialité en haut à gauche pour trouver le plus proche.'
+    );
+    if (!markerPopup.isOpen()) marker.togglePopup();
+  }
+  const feat = map.querySourceFeatures('cnam', {
+    sourceLayer: 'cnam',
+    filter:
+      doctorType.value === 'all'
+        ? []
+        : ['in', ['get', 'pro'], ['literal', colors[doctorType.value]]],
+  }) as GeoJSON.Feature<GeoJSON.Point>[];
+  if (feat.length === 0) {
+    map.easeTo({
+      center: lngLat as [number, number],
+      zoom: map.getZoom() - 1,
     });
-    map.on('click', `circle-cnam-${color}`, (ev) => {
-      console.log(ev.features);
-      if (ev.features) {
-        alert(JSON.stringify(ev.features[0]));
+    markerPopup.setText(
+      `Il n'y a aucun ${
+        colorsLegend[doctorType.value] || 'point'
+      } sur cette portion de carte...`
+    );
+    (map.getSource('line') as GeoJSONSource).setData(emptyGeoJSON);
+    map.once('idle', () => nearest(lngLat));
+    return;
+  }
+  const point = nearestPoint(lngLat, {
+    type: 'FeatureCollection',
+    features: feat,
+  });
+  doc.value = {
+    ...point.properties,
+    horaires: JSON.parse(point.properties.horaires),
+    place: JSON.parse(point.properties.place),
+  } as unknown as CNAMData;
+  const line = lineString([lngLat, point.geometry.coordinates]);
+  markerPopup.setHTML(
+    `<p>Ici, vous êtes à <strong>${point.properties.distanceToPoint.toLocaleString(
+      'fr',
+      {
+        maximumFractionDigits: 2,
       }
-    });
-  });
-});
-
-map.on('click', (ev) => {
-  console.log(
-    'nearest!',
-    nearestPoint(ev.lngLat.toArray(), {
-      type: 'FeatureCollection',
-      features: map.querySourceFeatures('cnam', {
-        sourceLayer: 'cnam',
-        filter: ['==', ['get', 'pro'], 43],
-      }) as GeoJSON.Feature<GeoJSON.Point>[],
-    })
+    )}</strong> km du ${colorsLegend[doctorType.value] || 'professionnel de santé'} le plus proche.</p>`
   );
+  if (!markerPopup.isOpen()) marker.togglePopup();
+  (map.getSource('line') as GeoJSONSource).setData(line);
+}
+
+watch(doctorType, (newDoctor, oldDoctor) => {
+  map.setLayoutProperty(`circle-cnam-${oldDoctor}`, 'visibility', 'none');
+  map.setLayoutProperty(`heatmap-cnam-${oldDoctor}`, 'visibility', 'none');
+  map.setLayoutProperty(`circle-cnam-${newDoctor}`, 'visibility', 'visible');
+  map.setLayoutProperty(`heatmap-cnam-${newDoctor}`, 'visibility', 'visible');
+  if (marker.getLngLat().toString() !== 'LngLat(0, 0)')
+    nearest(marker.getLngLat().toArray());
 });
 
-// @ts-ignore
-window.hello = map;
+map.once('idle', () => map.on('click', (ev) => nearest(ev.lngLat.toArray())));
+
+markerPopup.on('close', () => {
+  (map.getSource('line') as GeoJSONSource).setData(emptyGeoJSON);
+  marker.setLngLat([0, 0]);
+  doc.value = undefined;
+});
 </script>

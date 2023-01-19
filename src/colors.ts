@@ -4,7 +4,7 @@ export const colors: Record<string, number[]> = Object.freeze({
   white: [18, 19, 20, 21], // Dentistes
   orange: [22], // Dermatologue
   hotpink: [23], // Endocrinologue-diabétologue
-  darkslategray: [24, 25, 26, 27, 28, 29, 30, 31, 32], // Fournisseur de matériel médical
+  darkturquoise: [24, 25, 26, 27, 28, 29, 30, 31, 32], // Fournisseur de matériel médical
   saddlebrown: [33], // Gastro-entérologue
   slategray: [34], // Gériatre
   lightpink: [35, 36, 37], // Gynécologue
@@ -26,4 +26,33 @@ export const colors: Record<string, number[]> = Object.freeze({
   powderblue: [67], // Raidologue
   skyblue: [70], // Rhumatologue
   teal: [74], // Stomatologue
+});
+
+export const colorsLegend = Object.freeze<Record<string, string>>({
+  pink: 'Cardiologue',
+  chocolate: 'Chirurgiens',
+  white: 'Dentistes',
+  orange: 'Dermatologue',
+  hotpink: 'Endocrinologue-diabétologue',
+  darkturquoise: 'Fournisseur de matériel médical',
+  saddlebrown: 'Gastro-entérologue',
+  slategray: 'Gériatre',
+  lightpink: 'Gynécologue',
+  firebrick: 'Hématologue',
+  cyan: 'Infirmier',
+  deepskyblue: 'Laboratoire',
+  mediumorchid: 'Kiné',
+  darkblue: 'Médecin généraliste',
+  yellow: 'Néphrologue',
+  peachpuff: 'Obstétricien / sage-femme',
+  paleturquoise: 'Ophtalmologie / Orthoptiste',
+  '#b2ffbc': 'ORL',
+  beige: 'Pédiatre',
+  coral: 'Pédicure-podologue',
+  lime: 'Pharmacies',
+  darkseagreen: 'Pneumologue',
+  deeppink: 'Psychiatre / Neuro-psychiatre',
+  powderblue: 'Raidologue',
+  skyblue: 'Rhumatologue',
+  teal: 'Stomatologue',
 });

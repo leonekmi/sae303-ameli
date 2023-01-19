@@ -32,7 +32,9 @@ const professions = Object.freeze({
   CHIRURGIENS_DENTISTES_SPECIALISTE_EN_MEDECINE_BUCCO_DENTAIRE: [21],
   DERMATOLOGUE_ET_VENEROLOGUE: [22],
   ENDOCRINOLOGUE_DIABETOLOGUE: [23],
-  FOURNISSEUR_DE_MATERIEL_MEDICAL_ET_PARA_MEDICAL: [24, 25, 26, 27, 28, 29, 30, 31, 32],
+  FOURNISSEUR_DE_MATERIEL_MEDICAL_ET_PARA_MEDICAL: [
+    24, 25, 26, 27, 28, 29, 30, 31, 32,
+  ],
   GASTRO_ENTEROLOGUE_ET_HEPATOLOGUE: [33],
   GERIATRE: [34],
   GYNECOLOGUE_MEDICAL: [35],
@@ -73,6 +75,83 @@ const professions = Object.freeze({
   STOMATOLOGISTE: [74],
 });
 
+export const professionsLabels = Object.freeze<Record<number, string>>({
+  1: 'Ambulance/Véhicule sanitaire léger',
+  2: 'Anatomo-Cyto-Pathologiste',
+  3: 'Anesthésiste réanimateur',
+  4: 'Cancérologue radiothérapeute',
+  5: 'Cancérologue médical',
+  6: 'Cardiologue',
+  7: 'Chirurgien général',
+  8: 'Chirurgien infantile',
+  9: 'Chirurgien maxillo-facial',
+  10: 'Chirurgien maxillo-facial et stomatologiste',
+  11: 'Chirurgien oral',
+  12: 'Chirurgien orthopédiste et traumatologue',
+  13: 'Chirurgien plasticien',
+  14: 'Chirurgien thoracique et cardio-vasculaire',
+  15: 'Chirurgien urologue',
+  16: 'Chirurgien vasculaire',
+  17: 'Chirurgien viscéral',
+  18: 'Chirurgien-dentiste',
+  19: 'Chirurgien-dentiste spécialiste en orthopédie dento-faciale',
+  20: 'Chirurgiens-dentistes spécialiste en chirurgie orale',
+  21: 'Chirurgiens-dentistes spécialiste en médecine bucco-dentaire',
+  22: 'Dermatologue et vénérologue',
+  23: 'Endocrinologue-diabétologue',
+  24: 'Fournisseur de matériel médical et para-médical',
+  25: 'Fournisseur de matériel médical et para-médical',
+  26: 'Fournisseur de matériel médical et para-médical',
+  27: 'Fournisseur de matériel médical et para-médical',
+  28: 'Fournisseur de matériel médical et para-médical',
+  29: 'Fournisseur de matériel médical et para-médical',
+  30: 'Fournisseur de matériel médical et para-médical',
+  31: 'Fournisseur de matériel médical et para-médical',
+  32: 'Fournisseur de matériel médical et para-médical',
+  33: 'Gastro-entérologue et hépatologue',
+  34: 'Gériatre',
+  35: 'Gynécologue médical',
+  36: 'Gynécologue médical et obstétricien',
+  37: 'Gynécologue obstétricien',
+  38: 'Hématologue',
+  39: 'Infirmier',
+  40: 'Laboratoire',
+  41: 'Laboratoire',
+  42: "Laboratoire d'anatomo-pathologie",
+  43: 'Masseur-kinésithérapeute',
+  44: 'Médecin biologiste',
+  45: 'Médecin généraliste',
+  46: 'Médecin généraliste',
+  47: 'Médecin généraliste',
+  48: 'Médecin généticien',
+  49: 'Médecin spécialiste en médecine nucléaire',
+  50: 'Médecin spécialiste en santé publique et médecine sociale',
+  51: 'Néphrologue',
+  52: 'Neurochirurgien',
+  53: 'Neurologue',
+  54: 'Neuropsychiatre',
+  55: 'Obstétricien',
+  56: 'Ophtalmologiste',
+  57: 'Orthophoniste',
+  58: 'Orthoptiste',
+  59: 'Oto-Rhino-Laryngologue (ORL) et chirurgien cervico-facial',
+  60: 'Pédiatre',
+  61: 'Pédicure-podologue',
+  62: 'Pharmacien',
+  63: 'Pharmacien',
+  64: 'Pneumologue',
+  65: 'Psychiatre',
+  66: "Psychiatre de l'enfant et de l'adolescent",
+  67: 'Radiologue',
+  68: 'Radiothérapeute',
+  69: 'Réanimateur médical',
+  70: 'Rhumatologue',
+  71: 'Sage-femme',
+  72: 'Spécialiste en médecine interne',
+  73: 'Spécialiste en médecine physique et de réadaptation',
+  74: 'Stomatologiste',
+});
+
 export interface CNAMData {
   /**
    * Civilité - 1 = Monsieur | 2 = Madame
@@ -80,6 +159,7 @@ export interface CNAMData {
   c: Civilité;
   nom: string;
   prenom: string;
+  tel: string;
   /**
    * Profession
    * @see {professions}
@@ -106,7 +186,7 @@ export interface CNAMData {
     ville: string;
     cp: string;
     addr: string;
-  }
+  };
   horaires: {
     /**
      * Type horaires
@@ -129,6 +209,6 @@ export interface CNAMData {
     /**
      * Jour de la semaine (lundi = 1)
      */
-    jour: 1 | 2 | 3 | 4 | 5 | 6 | 7
-  }[]
+    jour: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  }[];
 }
