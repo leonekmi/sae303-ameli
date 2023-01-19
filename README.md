@@ -1,5 +1,11 @@
 # SAE 3D03 - Leon Lozahic
 
+`util` contient les scripts utilisés pour convertir les données de la Cnam en GeoJSON, format standard pour l'affichage sur les cartes.
+
+Ce fichier GeoJSON est ensuite servi via un *tile server* (en l'occurence [france.leonekmi.fr](https://france.leonekmi.fr)), un serveur qui va se charger de fragmenter les données en pleins de morceaux pour éviter que le navigateur télécharge l'intégralité du fichier avant de pouvoir commencer à travailler.
+
+Par la suite, le traitement pour trouver le professionnel de santé le plus proche est réalisé directement sur le navigateur à l'aide de [Turf.js](https://turfjs.org/), qui fournit des dizaines d'outils pour travailler avec des positions.
+
 ## Recommended IDE Setup
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).

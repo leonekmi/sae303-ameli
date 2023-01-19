@@ -1,7 +1,6 @@
 import {
   ExpressionInputType,
   ExpressionSpecification,
-  GeoJSONSource,
   GeolocateControl,
   Map as Maplibre,
   Marker,
@@ -10,6 +9,7 @@ import {
 } from 'maplibre-gl';
 import { colors } from './colors';
 
+// Création de la carte et ajout de tous les calques à utiliser
 export const map = new Maplibre({
   container: 'map',
   style: 'https://france.leonekmi.fr/styles/france/style.json',
