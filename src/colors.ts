@@ -30,8 +30,8 @@ export const colors: Record<string, number[]> = Object.freeze({
 
 export const colorsLegend = Object.freeze<Record<string, string>>({
   pink: 'Cardiologue',
-  chocolate: 'Chirurgiens',
-  white: 'Dentistes',
+  chocolate: 'Chirurgien',
+  white: 'Dentiste',
   orange: 'Dermatologue',
   hotpink: 'Endocrinologue-diabétologue',
   darkturquoise: 'Fournisseur de matériel médical',
@@ -41,7 +41,7 @@ export const colorsLegend = Object.freeze<Record<string, string>>({
   firebrick: 'Hématologue',
   cyan: 'Infirmier',
   deepskyblue: 'Laboratoire',
-  mediumorchid: 'Kiné',
+  mediumorchid: 'Kinésithérapeute',
   darkblue: 'Médecin généraliste',
   yellow: 'Néphrologue',
   peachpuff: 'Obstétricien / sage-femme',
@@ -49,10 +49,10 @@ export const colorsLegend = Object.freeze<Record<string, string>>({
   '#b2ffbc': 'ORL',
   beige: 'Pédiatre',
   coral: 'Pédicure-podologue',
-  lime: 'Pharmacies',
+  lime: 'Pharmacie',
   darkseagreen: 'Pneumologue',
   deeppink: 'Psychiatre / Neuro-psychiatre',
-  powderblue: 'Raidologue',
+  powderblue: 'Radiologue',
   skyblue: 'Rhumatologue',
   teal: 'Stomatologue',
 });
